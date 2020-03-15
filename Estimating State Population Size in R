@@ -1,0 +1,27 @@
+##importing excel file to create linear regression
+##predict the next five years of population
+
+## load the data
+
+library(readxl)
+All_State_Data <- read_excel("All State Data.xlsx")
+View(All_State_Data)    
+
+summary(All_State_Data)
+
+# linear regression for West Virginia
+
+wv_data = All_State_Data[All_State_Data$States == 'West Virginia',]
+
+wv_regr = data.frame(Year = as.numeric(names(wv_data)[-1]), Population = as.numeric(wv_data[1,-1]))
+str(wv_regr)
+
+## regression
+regr = lm(Population ~ Year, data = wv_regr)
+
+
+##Predicting Population size for the next five years for West Virginia
+summary(regr)
+years_df = data.frame(Year = c(2020:2025))
+
+predict(regr, newdata = years_df)
